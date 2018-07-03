@@ -1,0 +1,14 @@
+{
+  "name": "Exal",
+  "version": "1.0.0",
+  "description": "Backend of the Exal Web Application.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "TBA",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
