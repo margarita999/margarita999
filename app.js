@@ -125,7 +125,7 @@ function storeShops (allShops) {
 	});
 	for (let i= 0; i< allShops.length; i++) {
 		client.query("INSERT INTO public.Shop (content) VALUES(\""+"HELLOO"+"\"); ", (err, res) => {
-			if (err) throw err;
+			if (err) return 1;
 		});
 	}
 	client.end();
