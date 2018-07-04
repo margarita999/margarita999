@@ -44,8 +44,13 @@ app.get('/test', function (req, res) {
 
 	S1= new Shop ();
 
+	all= [];
+	all.push(S1);
+	storeShops(all);
 
-  res.send(JSON.stringify(S1));
+	all2= retrieveShops();
+
+  res.send(JSON.stringify(all2));
 });
 
 
