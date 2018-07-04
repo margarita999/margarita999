@@ -46,15 +46,7 @@ app.get('/test', function (req, res) {
 
 	all= [];
 	all.push(S1);
-	//storeShops(all);
-	a= storeShops(all);
-	if (a== 0) {
-		a=0;
-	}
-	else {
-		res.send("ERRORR !!!!");
-		return;
-	}
+	storeShops(all);
 
 	all2= retrieveShops();
 
@@ -116,20 +108,18 @@ function Assistant () {
 	this.picture= "";
 }
 
-//if (err) throw err;
 
 function storeShops (allShops) {
 	client.connect();
 	client.query("DELETE FROM shop;", (err, res) => {
-		if (err) return 1;
+		if (err) throw err;
 	});
 	for (let i= 0; i< allShops.length; i++) {
-		client.query("INSERT INTO public.shop (content) VALUES(\""+"HELLOO"+"\"); ", (err, res) => {
-			if (err) return 1;
+		client.query("INSERT INTO public.shop (content) VALUES('"+"HELLOO"+"'); ", (err, res) => {
+			if (err) throw err;
 		});
 	}
 	client.end();
-	return 0;
 }
 
 function storeItems (allItems) {
