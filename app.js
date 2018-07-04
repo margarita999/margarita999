@@ -46,7 +46,7 @@ app.get('/test', function (req, res) {
 
 	all= [];
 	all.push(S1);
-	storeShops(all);/*
+	//storeShops(all);
 	a= storeShops(all);
 	if (a== 0) {
 		a=0;
@@ -54,7 +54,7 @@ app.get('/test', function (req, res) {
 	else {
 		res.send("ERRORR !!!!");
 		return;
-	}*/
+	}
 
 	all2= retrieveShops();
 
