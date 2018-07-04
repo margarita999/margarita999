@@ -48,10 +48,11 @@ app.get('/test', function (req, res) {
 	all.push(S1);
 	a= storeShops(all);
 	if (a== 0) {
-		res.send(JSON.stringify(all2));
+		a=0;
 	}
 	else {
 		res.send("ERRORR !!!!");
+		return;
 	}
 
 	all2= retrieveShops();
