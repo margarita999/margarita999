@@ -120,11 +120,11 @@ function Assistant () {
 
 function storeShops (allShops) {
 	client.connect();
-	client.query("DELETE FROM Shop;", (err, res) => {
+	client.query("DELETE FROM shop;", (err, res) => {
 		if (err) return 1;
 	});
 	for (let i= 0; i< allShops.length; i++) {
-		client.query("INSERT INTO public.Shop (content) VALUES(\""+"HELLOO"+"\"); ", (err, res) => {
+		client.query("INSERT INTO public.shop (content) VALUES(\""+"HELLOO"+"\"); ", (err, res) => {
 			if (err) return 1;
 		});
 	}
