@@ -114,7 +114,7 @@ function storeShops (allShops) {
 		if (err) throw err;
 	});
 	for (let i= 0; i< allShops.length; i++) {
-		client.query("INSERT INTO public.Shop (content)VALUES('"+JSON.stringify(allShops[i])+"'); ", (err, res) => {
+		client.query("INSERT INTO public.Shop (content) VALUES('"+"HELLOO"+"'); ", (err, res) => {
 			if (err) throw err;
 		});
 	}
@@ -127,7 +127,7 @@ function storeItems (allItems) {
 		if (err) throw err;
 	});
 	for (let i= 0; i< allItems.length; i++) {
-		client.query("INSERT INTO public.Item (content)VALUES('"+JSON.stringify(allItems[i])+"'); ", (err, res) => {
+		client.query("INSERT INTO public.Item (content) VALUES('"+JSON.stringify(allItems[i])+"'); ", (err, res) => {
 			if (err) throw err;
 		});
 	}
@@ -140,7 +140,7 @@ function storeAssistant (allAssistants) {
 		if (err) throw err;
 	});
 	for (let i= 0; i< allAssistants.length; i++) {
-		client.query("INSERT INTO public.Assistant (content)VALUES('"+JSON.stringify(allAssistants[i])+"'); ", (err, res) => {
+		client.query("INSERT INTO public.Assistant (content) VALUES('"+JSON.stringify(allAssistants[i])+"'); ", (err, res) => {
 			if (err) throw err;
 		});
 	}
