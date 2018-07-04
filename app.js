@@ -46,6 +46,7 @@ app.get('/test', function (req, res) {
 
 	all= [];
 	all.push(S1);
+	storeShops(all);/*
 	a= storeShops(all);
 	if (a== 0) {
 		a=0;
@@ -53,7 +54,7 @@ app.get('/test', function (req, res) {
 	else {
 		res.send("ERRORR !!!!");
 		return;
-	}
+	}*/
 
 	all2= retrieveShops();
 
@@ -120,7 +121,7 @@ function Assistant () {
 function storeShops (allShops) {
 	client.connect();
 	client.query("DELETE FROM Shop;", (err, res) => {
-		if (err) return -1;
+		if (err) return 1;
 	});
 	for (let i= 0; i< allShops.length; i++) {
 		client.query("INSERT INTO public.Shop (content) VALUES(\""+"HELLOO"+"\"); ", (err, res) => {
