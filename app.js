@@ -154,6 +154,7 @@ function retrieveShops () {
 	client.query("SELECT content FROM public.shop;", (err, res) => {
 		if (err) throw err;
 		for (let row of res.rows) {
+			return row;
 			allShops.push(JSON.parse(row));
 		}
 	});
