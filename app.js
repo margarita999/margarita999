@@ -9,7 +9,7 @@ const client = new Client({
   ssl: true,
 });
 
-client.connect();
+//client.connect();
 
 const PORT = process.env.PORT || 8081;
 
@@ -50,12 +50,19 @@ app.get('/test', function (req, res) {
 	all= [];
 	all.push(S1);
 	all.push(S2);
-	b= storeShops(all);
+	//b= storeShops(all);
 
 	//all2= retrieveShops();
 
 	//JSON.stringify(all2)
-  res.send(b);
+	client.connect();
+
+	client.query("INSERT INTO public.shop (content) VALUES('AAABBBCCC');", (err, res) => {
+		if (err) return;
+	});
+	client.end();
+
+  res.send("AAA");
 });
 
 
