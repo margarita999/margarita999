@@ -28,6 +28,7 @@ app.get('/test', function (req, res) {
 
 	client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
 		answer= "B";
+		res.send(answer);
 		if (err) answer= "AAA";
 		for (let row of res.rows) {
 			answer= answer + "1";
