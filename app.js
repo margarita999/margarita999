@@ -54,9 +54,9 @@ app.get('/test', function (req, res) {
 		client.query("INSERT INTO public.shop (content) VALUES('AAABBBCCC');", (err, res) => {
 			if (err) return;
 		});
+		client.end();
 	}
 	
-	client.end();
 
   res.send("AAA");
 });
