@@ -39,7 +39,7 @@ app.get('/test', function (req, res) {
 	});
 
 
-	res.send(process.env.DATABASE_URL);
+	res.send(answer);
 });
 
 app.listen(PORT, function () {
