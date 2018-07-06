@@ -9,7 +9,7 @@ const client = new Client({
   ssl: true,
 });
 
-client.connect();
+//client.connect();
 
 const PORT = process.env.PORT || 8081;
 
@@ -49,14 +49,24 @@ app.get('/test', function (req, res) {
 	//all2= retrieveShops();
 
 	//JSON.stringify(all2)
-
+	/*
 	for (let i=0; i<5; i++) {
 		client.query("INSERT INTO public.shop (content) VALUES('AAABBBCCC');", (err, res) => {
 			if (err) return;
 		});
 		client.end();
 	}
-	
+	*/
+
+	client.connect();
+
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    res.send(JSON.stringify(row));
+  }
+  client.end();
+});
 
   res.send("AAA");
 });
