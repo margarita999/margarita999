@@ -45,14 +45,17 @@ app.listen(PORT, function () {
 app.get('/test', function (req, res) {
 
 	S1= new Shop ();
+	S2= new Shop ();
 
 	all= [];
 	all.push(S1);
+	all.push(S2);
 	b= storeShops(all);
 
-	all2= retrieveShops();
+	//all2= retrieveShops();
 
-  res.send(JSON.stringify(all2));
+	//JSON.stringify(all2)
+  res.send(b);
 });
 
 
