@@ -117,6 +117,7 @@ function storeShops (allShops) {
 	client.query("DELETE FROM shop;", (err, res) => {
 		if (err) return "1";
 	});
+	client.end();
 	for (let i= 0; i< allShops.length; i++) {
 		client.query("INSERT INTO public.shop (content) VALUES('HELLOO');", (err, res) => {
 			if (err) return "2";
