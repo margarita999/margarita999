@@ -38,7 +38,7 @@ app.get('/test', function (req, res) {
 	});
 
 
-	res.send(answer);
+	res.send(process.env.DATABASE_URL);
 });
 
 app.listen(PORT, function () {
