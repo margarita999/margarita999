@@ -17,6 +17,7 @@ app.get('/', function (req, res) {
   res.send('Exal Backend Restful Service!');
 });
 
+var answer;
 
 app.get('/test', function (req, res) {
 
