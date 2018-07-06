@@ -50,9 +50,12 @@ app.get('/test', function (req, res) {
 
 	//JSON.stringify(all2)
 
-	client.query("INSERT INTO public.shop (content) VALUES('AAABBBCCC');", (err, res) => {
-		if (err) return;
-	});
+	for (let i=0; i<5; i++) {
+		client.query("INSERT INTO public.shop (content) VALUES('AAABBBCCC');", (err, res) => {
+			if (err) return;
+		});
+	}
+	
 	client.end();
 
   res.send("AAA");
