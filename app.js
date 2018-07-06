@@ -1,6 +1,13 @@
 var express = require('express');
 var app = express();
 
+const { Client } = require('pg');
+
+	const client = new Client({
+		connectionString: process.env.DATABASE_URL,
+		ssl: true,
+	});
+
 //client.connect();
 
 const PORT = process.env.PORT || 80;
@@ -15,13 +22,6 @@ app.get('/test', function (req, res) {
 
 
 	answer= "A ";
-
-	const { Client } = require('pg');
-
-	const client = new Client({
-		connectionString: process.env.DATABASE_URL,
-		ssl: true,
-	});
 
 	client.connect();
 
