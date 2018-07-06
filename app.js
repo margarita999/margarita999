@@ -48,11 +48,11 @@ app.get('/test', function (req, res) {
 
 	all= [];
 	all.push(S1);
-	storeShops(all);
+	b= storeShops(all);
 
 	all2= retrieveShops();
 
-  res.send(JSON.stringify(all2));
+  res.send(b);
 });
 
 
@@ -115,11 +115,11 @@ function Assistant () {
 function storeShops (allShops) {
 	//client.connect();
 	client.query("DELETE FROM shop;", (err, res) => {
-		if (err) console.log("1\n\n\n\n");
+		if (err) return "1";
 	});
 	for (let i= 0; i< allShops.length; i++) {
 		client.query("INSERT INTO public.shop (content) VALUES('HELLOO'); ", (err, res) => {
-			if (err) console.log("2\n\n\n\n");
+			if (err) return "2";
 		});
 	}
 	client.end();
@@ -155,7 +155,7 @@ function retrieveShops () {
 	//client.connect();
 	allShops= [];
 	client.query("SELECT content FROM public.shop;", (err, res) => {
-		if (err) console.log("3\n\n\n\n");
+		if (err) return "3";
 		for (let row of res.rows) {
 			return row;
 			allShops.push(JSON.parse(row));
