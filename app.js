@@ -58,17 +58,18 @@ app.get('/test', function (req, res) {
 	}
 	*/
 
+	answer= "A ";
 	client.connect();
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    res.send(JSON.stringify(row));
-  }
-  client.end();
-});
+	client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+	if (err) res.send("AAA");;
+	for (let row of res.rows) {
+		answer= asnwer+ JSON.stringify(row);
+	}
+	client.end();
+	});
 
-  res.send("AAA");
+  res.send(answer);
 });
 
 app.listen(PORT, function () {
