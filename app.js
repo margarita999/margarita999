@@ -36,12 +36,6 @@ app.get('/sources/:title/', function (req, res) {
   res.json({"Message" : "Error: There is no source with the requested Title."});
 });
 
-
-app.listen(PORT, function () {
-  console.log('Example app listening on port' + PORT + '!');
-});
-
-
 app.get('/test', function (req, res) {
 
 	S1= new Shop ();
@@ -65,7 +59,9 @@ app.get('/test', function (req, res) {
   res.send("AAA");
 });
 
-
+app.listen(PORT, function () {
+	console.log('Example app listening on port' + PORT + '!');
+  });
 
 Shop.count= 0;
 
