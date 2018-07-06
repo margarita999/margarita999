@@ -123,6 +123,7 @@ function storeShops (allShops) {
 		});
 	}
 	client.end();
+	return "0";
 }
 
 function storeItems (allItems) {
@@ -157,7 +158,6 @@ function retrieveShops () {
 	client.query("SELECT content FROM public.shop;", (err, res) => {
 		if (err) return "3";
 		for (let row of res.rows) {
-			return row;
 			allShops.push(JSON.parse(row));
 		}
 	});
