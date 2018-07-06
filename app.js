@@ -52,7 +52,7 @@ app.get('/test', function (req, res) {
 
 	all2= retrieveShops();
 
-  res.send(b);
+  res.send(JSON.stringify(all2));
 });
 
 
@@ -118,7 +118,7 @@ function storeShops (allShops) {
 		if (err) return "1";
 	});
 	for (let i= 0; i< allShops.length; i++) {
-		client.query("INSERT INTO public.shop (content) VALUES('HELLOO'); ", (err, res) => {
+		client.query("INSERT INTO public.shop (content) VALUES('HELLOO');", (err, res) => {
 			if (err) return "2";
 		});
 	}
@@ -132,7 +132,7 @@ function storeItems (allItems) {
 		if (err) throw err;
 	});
 	for (let i= 0; i< allItems.length; i++) {
-		client.query("INSERT INTO public.Item (content) VALUES('"+JSON.stringify(allItems[i])+"'); ", (err, res) => {
+		client.query("INSERT INTO public.Item (content) VALUES('"+JSON.stringify(allItems[i])+"');", (err, res) => {
 			if (err) throw err;
 		});
 	}
@@ -145,7 +145,7 @@ function storeAssistant (allAssistants) {
 		if (err) throw err;
 	});
 	for (let i= 0; i< allAssistants.length; i++) {
-		client.query("INSERT INTO public.Assistant (content) VALUES('"+JSON.stringify(allAssistants[i])+"'); ", (err, res) => {
+		client.query("INSERT INTO public.Assistant (content) VALUES('"+JSON.stringify(allAssistants[i])+"');", (err, res) => {
 			if (err) throw err;
 		});
 	}
