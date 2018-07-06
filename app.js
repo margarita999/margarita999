@@ -64,7 +64,7 @@ app.get('/test', function (req, res) {
 	client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
 	if (err) res.send("AAA");;
 	for (let row of res.rows) {
-		answer= asnwer+ JSON.stringify(row);
+		answer= answer+ JSON.stringify(row);
 	}
 	client.end();
 	});
