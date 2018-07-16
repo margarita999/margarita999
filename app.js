@@ -32,6 +32,14 @@ app.get('/', function (req, res) {
   res.send('Exal Backend Restful Service!');
 });
 
+// Retreive Data from Database again in case of external change
+app.get('/refresh', async function (req, res) {
+	firstTime= true;
+	answer= await init ();
+
+	res.json({"Message" : "Success"});
+  });
+
 app.post('/add/shop', async function (req, res) {
 	answer= await init ();
 	shop= new Shop ();
