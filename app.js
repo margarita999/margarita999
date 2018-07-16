@@ -4,12 +4,15 @@ var app = express();
 // Database
 const { Client } = require('pg');
 
+const connectionString = process.env.DATABASE_URL || 'postgres://nqiqbdbukgygxb:cb3b5f7f38e2387e17257b6feebeb567d3d8932556f5943566b15ea590e6e5e9@ec2-54-228-251-254.eu-west-1.compute.amazonaws.com:5432/d2henp7bbv2obe';
+/*
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
 
 //client.connect();
+*/
 
 const PORT = process.env.PORT || 8081;
 
@@ -38,26 +41,78 @@ app.get('/sources/:title/', function (req, res) {
 
 app.get('/test', async function (req, res) {
 
+	answer= await init ();
+	allShops= await retrieveShopsDB ();
+	allItems= await retrieveItemsDB ();
+	allAssistants= await retrieveAssistantsDB ();
+
 	S1= new Shop ();
 	S2= new Shop ();
+	allShops.push(S1);
+	allShops.push(S2);
 
-	all= [];
-	all.push(S1);
-	all.push(S2);
+	I1= new Item ();
+	I2= new Item ();
+	allItems.push (I1);
+	allItems.push (I2);
 
-	answer= storeShops (all);
-  	res.send(answer);
+	A1= new Assistant ();
+	A2= new Assistant ();
+	allAssistants.push (A1);
+	allAssistants.push (A2);
+
+	answer= await deleteAllShopsDB ();
+	answer= await storeShopsDB (allShops);
+	answer= await deleteAllItemsDB ();
+	answer= await storeItemsDB (allItems);
+	answer= await deleteAllAssistantsDB ();
+	answer= await storeAssistantsDB (allAssistants);
+  	res.json(answer);
+});
+
+app.get('/db', async function (req, res) {
+
+  	res.send(connectionString);
 });
 
 app.listen(PORT, function () {
 	console.log('Example app listening on port' + PORT + '!');
-  });
+});
 
-Shop.count= 0;
+var firstTime= true;
+var shopCount= 0;
+var itemCount= 0;
+var assistantCount= 0;
+
+async function init () {
+	if (firstTime== false) {
+		return 0;
+	}
+
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect();
+	
+	res = await client.query("SELECT content FROM public.shop;");
+	shopCount= res.rows.length;
+
+	res = await client.query("SELECT content FROM public.item;");
+	itemCount= res.rows.length;
+
+	res = await client.query("SELECT content FROM public.assistant;");
+	assistantCount= res.rows.length;
+	
+	await client.end();
+	
+	firstTime= false;
+	return 0;
+}
 
 function Shop () {
-	this.ID= Shop.count;
-	Shop.count++;
+	this.ID= shopCount++;
 	this.AssistantID= "";
 	this.username= "";
 	this.password= "";
@@ -72,11 +127,8 @@ function Shop () {
 	this.picture= "";
 }
 
-Item.count= 0;
-
 function Item () {
-	this.ID= Item.count;
-	Item.count++;
+	this.ID= itemCount++;
 	this.ShopID= "";
 	this.name= "";
 	this.category= ""; //e.g. clothes, tech, ...
@@ -87,11 +139,8 @@ function Item () {
 	this.picture= "";
 }
 
-Assistant.count= 0;
-
 function Assistant () {
-	this.ID= Assistant.count;
-	Item.count++;
+	this.ID= assistantCount++;
 	this.fullName= "";
 	this.username= "";
 	this.password= "";
@@ -106,61 +155,169 @@ function Assistant () {
 	this.picture= "";
 }
 
-// if (err) throw err;
+// Shop Functions -------------------------
 
-async function storeShops (allShops) {
-
-	const connectionString = process.env.DATABASE_URL || 'postgres://nqiqbdbukgygxb:cb3b5f7f38e2387e17257b6feebeb567d3d8932556f5943566b15ea590e6e5e9@ec2-54-228-251-254.eu-west-1.compute.amazonaws.com:5432/d2henp7bbv2obe';
-	const client = new Client({
+async function storeShopsDB (allShops) {
+	client = new Client({
 		connectionString: connectionString,
 		ssl: true,
 	});
 
 	await client.connect()
 	
-	const res = await client.query("INSERT INTO public.shop (content) VALUES('HELLOO');")
-	console.log(res.rows[0].message) 
-	await client.end()
+	for (let i= 0; i< allShops.length; i++){
+		val= JSON.stringify(allShops[i]);
+		//console.log(val);
+		res = await client.query("INSERT INTO public.shop (content) VALUES('"+ val +"');");
+	}
+	//console.log(res.rows[0].message) 
+	await client.end();
 
 	return 0;
 }
 
-function storeItems (allItems) {
-	client.connect();
-	client.query("DELETE FROM Item;", (err, res) => {
-		if (err) throw err;
+async function deleteAllShopsDB () {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
 	});
-	for (let i= 0; i< allItems.length; i++) {
-		client.query("INSERT INTO public.Item (content) VALUES('"+JSON.stringify(allItems[i])+"');", (err, res) => {
-			if (err) throw err;
-		});
-	}
-	client.end();
+
+	await client.connect();
+	
+	const res = await client.query("DELETE FROM shop;");
+	await client.end();
+
+	return 0;
 }
 
-function storeAssistant (allAssistants) {
-	client.connect();
-	client.query("DELETE FROM Assistant;", (err, res) => {
-		if (err) throw err;
+async function retrieveShopsDB () {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
 	});
-	for (let i= 0; i< allAssistants.length; i++) {
-		client.query("INSERT INTO public.Assistant (content) VALUES('"+JSON.stringify(allAssistants[i])+"');", (err, res) => {
-			if (err) throw err;
-		});
-	}
-	client.end();
-}
 
-function retrieveShops () {
-	//client.connect();
+	await client.connect();
+	
+	const res = await client.query("SELECT content FROM public.shop;");
+
 	allShops= [];
-	client.query("SELECT content FROM public.shop;", (err, res) => {
-		if (err) return "3";
-		for (let row of res.rows) {
-			allShops.push(JSON.parse(row));
-		}
-	});
-	client.end();
+	for (let i= 0; i< res.rows.length; i++) {
+		//console.log(res.rows[i].content);
+		allShops.push(JSON.parse(res.rows[i].content));
+	}
+	await client.end();
+
 	return allShops;
 }
+
+// Item Functions -------------------------
+
+async function storeItemsDB (allItems) {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect()
+	
+	for (let i= 0; i< allItems.length; i++){
+		val= JSON.stringify(allItems[i]);
+		//console.log(val);
+		res = await client.query("INSERT INTO public.item (content) VALUES('"+ val +"');");
+	}
+	//console.log(res.rows[0].message) 
+	await client.end();
+
+	return 0;
+}
+
+async function deleteAllItemsDB () {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect();
+	
+	const res = await client.query("DELETE FROM item;");
+	await client.end();
+
+	return 0;
+}
+
+async function retrieveItemsDB () {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect();
+	
+	const res = await client.query("SELECT content FROM public.item;");
+
+	allItems= [];
+	for (let i= 0; i< res.rows.length; i++) {
+		//console.log(res.rows[i].content);
+		allItems.push(JSON.parse(res.rows[i].content));
+	}
+	await client.end();
+
+	return allItems;
+}
+
+// Assistant Functions -------------------------
+
+async function storeAssistantsDB (allAssistants) {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect()
+	
+	for (let i= 0; i< allAssistants.length; i++){
+		val= JSON.stringify(allAssistants[i]);
+		//console.log(val);
+		res = await client.query("INSERT INTO public.assistant (content) VALUES('"+ val +"');");
+	}
+	//console.log(res.rows[0].message) 
+	await client.end();
+
+	return 0;
+}
+
+async function deleteAllAssistantsDB () {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect();
+	
+	const res = await client.query("DELETE FROM assistant;");
+	await client.end();
+
+	return 0;
+}
+
+async function retrieveAssistantsDB () {
+	client = new Client({
+		connectionString: connectionString,
+		ssl: true,
+	});
+
+	await client.connect();
+	
+	const res = await client.query("SELECT content FROM public.assistant;");
+
+	allAssistants= [];
+	for (let i= 0; i< res.rows.length; i++) {
+		//console.log(res.rows[i].content);
+		allAssistants.push(JSON.parse(res.rows[i].content));
+	}
+	await client.end();
+
+	return allAssistants;
+}
+
 
